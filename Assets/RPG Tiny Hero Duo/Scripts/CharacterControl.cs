@@ -16,7 +16,7 @@ public class CharacterControl : MonoBehaviour
     }
 
     [SerializeField] private float moveSpeed = 2;
-    //[SerializeField] private float turnSpeed = 200;
+    [SerializeField] private float turnSpeed = 100;
     [SerializeField] private float jumpForce = 4;
 
     [SerializeField] private Animator animator = null;
@@ -33,7 +33,7 @@ public class CharacterControl : MonoBehaviour
     private readonly float backwardRunScale = 0.66f;
 
     private bool wasGrounded; //Midair
-    //private Vector3 m_currentDirection = Vector3.zero;
+   private Vector3 m_currentDirection = Vector3.zero;
 
     private float jumpTimeStamp = 0;
     private float minJumpInterval = 0.9f;
@@ -158,7 +158,8 @@ public class CharacterControl : MonoBehaviour
         //transform.Translate(0, currentH * Time.deltaTime * moveSpeed, 0);
         //transform.Translate(currentV * Time.deltaTime * moveSpeed, 0, 0);
         transform.position += transform.forward * currentV * moveSpeed * Time.deltaTime;
-        transform.position += transform.right * currentH * moveSpeed * Time.deltaTime;
+        //transform.position += transform.right * currentH * moveSpeed * Time.deltaTime;
+        transform.Rotate(0, currentH * turnSpeed *Time.deltaTime, 0);
 
         animator.SetFloat("MoveSpeed_H", currentH);
         animator.SetFloat("MoveSpeed_V", currentV);
