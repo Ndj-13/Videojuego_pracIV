@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 9011776680341881070}
   m_Layer: 0
   m_Name: WallPrefab
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,5 +110,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.9999998, y: 2, z: 0.28328502}
-  m_Center: {x: 0, y: 1, z: -0.14164233}
+  m_Size: {x: 3.9999998, y: 2, z: 0.34842694}
+  m_Center: {x: 0, y: 1, z: -0.061070494}

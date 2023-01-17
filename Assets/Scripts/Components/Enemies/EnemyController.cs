@@ -10,27 +10,34 @@ namespace Components.Enemies
 {
     public class EnemyController : MonoBehaviour, IEnemies
     {
+        //Variables movimeinto personaje
+        [SerializeField] private float m_moveSpeed = 2;
+        [SerializeField] private float m_turnSpeed = 100;
+
+        [SerializeField] private Animator m_animator = null;
+        [SerializeField] private Rigidbody m_rigidBody = null;
+
+        //private float m_currentV = 0;
+        //private float m_currentH = 0;
+        //
+        //private readonly float m_interpolation = 10;
+        //private Vector3 m_currentDirection = Vector3.zero;
+
         public int viewingAngle; //cuanto ve --> angulo de vision
         public float WanderSpeed;
         public float ChaseSpeed;
-        public float RotateSpeed;
-
-        private float m_currentV = 0;
-        private float m_currentH = 0;
-
-        private readonly float m_interpolation = 10;
-
-        [SerializeField] private Animator m_animator = null;
+        //public float RotateSpeed;
 
         private IState currentState; //mantiene estado actual --> contexto sabe cual es el estado actual
 
-        //public Transform currentWaypoint; //way point actual
-        //public Transform[] waypoints; //listado de way points
-
-        private Animator animator; //para cambiar de animacion
+        //private Animator animator; //para cambiar de animacion
         public Transform eyesTransform; //hemos creado una esfera que es el radio de vision y desde unity a esta variable le asignamos ese objeto
 
         private GameObject playerAtSight; //guarda si esta viendo al jugador
+
+        //private bool m_isGrounded; //el enemigo siempre esta en el suelo
+
+        //private List<Collider> m_collisions = new List<Collider>();
 
         private void Awake()
         {
@@ -41,7 +48,8 @@ namespace Components.Enemies
             //    currentWaypoint = waypoints[0]; //si no sabemos cual es el actual se pone q vaya al 0
             //}
 
-            animator = gameObject.GetComponent<Animator>();
+            if (!m_animator) { gameObject.GetComponent<Animator>(); }
+            if (!m_rigidBody) { gameObject.GetComponent<Animator>(); }
 
             SetState(new PatrollingWalk(this)); //contexto esta poniendo como estado inicial el search y a partir de aqui ya los otros estados van saltando de un estado a otro
         }
@@ -54,7 +62,7 @@ namespace Components.Enemies
         #region Get & Set speeds
         public float GetRotateSpeed()
         {
-            return RotateSpeed;
+            return m_turnSpeed;
         }
 
         public float GetWanderSpeed()
@@ -69,7 +77,7 @@ namespace Components.Enemies
 
         public void SetCurrentSpeed(float speed)
         {
-            animator.SetFloat("MoveSpeed", speed);
+            m_animator.SetFloat("MoveSpeed", speed);
         }
         #endregion
 
@@ -115,7 +123,11 @@ namespace Components.Enemies
             if (other.CompareTag("Player"))
             {
                 playerAtSight = PlayerIsOnSight(other.gameObject);
-            }
+            } 
+            //if(other.gameObject.CompareTag("Wall"))
+            //{
+            //    Debug.Log("He chocado con un muro");
+            //}
         }
 
         private void OnTriggerStay(Collider other)
@@ -134,7 +146,78 @@ namespace Components.Enemies
             }
         }
 
-        
+        private void OnCollisionEnter(Collision collision)
+        {
+            if(collision.collider.CompareTag("Wall"))
+            {
+
+                this.SetCurrentSpeed(0);
+
+                Debug.Log("He chocado con un muro: stop");
+
+                //angle = Quaternion.Angle(currentTransform.rotation, 90.0f);
+                this.SetState(new RotatingToContinue(this));
+
+            }
+            
+        }
+        /*
+        private void OnCollisionEnter(Collision collision)
+        {
+            ContactPoint[] contactPoints = collision.contacts;
+            for (int i = 0; i < contactPoints.Length; i++)
+            {
+                if (Vector3.Dot(contactPoints[i].normal, Vector3.up) > 0.5f)
+                {
+                    if (!m_collisions.Contains(collision.collider))
+                    {
+                        m_collisions.Add(collision.collider);
+                    }
+                    m_isGrounded = true;
+                }
+            }
+        }
+
+        private void OnCollisionStay(Collision collision)
+        {
+            ContactPoint[] contactPoints = collision.contacts;
+            bool validSurfaceNormal = false;
+            for (int i = 0; i < contactPoints.Length; i++)
+            {
+                if (Vector3.Dot(contactPoints[i].normal, Vector3.up) > 0.5f)
+                {
+                    validSurfaceNormal = true; break;
+                }
+            }
+
+            if (validSurfaceNormal)
+            {
+                m_isGrounded = true;
+                if (!m_collisions.Contains(collision.collider))
+                {
+                    m_collisions.Add(collision.collider);
+                }
+            }
+            else
+            {
+                if (m_collisions.Contains(collision.collider))
+                {
+                    m_collisions.Remove(collision.collider);
+                }
+                if (m_collisions.Count == 0) { m_isGrounded = false; }
+            }
+        }
+
+        private void OnCollisionExit(Collision collision)
+        {
+            if (m_collisions.Contains(collision.collider))
+            {
+                m_collisions.Remove(collision.collider);
+            }
+            if (m_collisions.Count == 0) { m_isGrounded = false; }
+        }*/
+
+
         private GameObject PlayerIsOnSight(GameObject player)
         {
             Vector3 playerDirection = (player.transform.position - transform.position).normalized;
@@ -165,11 +248,11 @@ namespace Components.Enemies
         {
             if(target == null)
             {
-                Debug.Log("MoveTo");
+                //Debug.Log("MoveTo");
                 transform.position += transform.forward * WanderSpeed * Time.deltaTime;
                 //transform.Rotate(0, m_currentH * RotateSpeed * Time.deltaTime, 0);
 
-                animator.SetFloat("MoveSpeed", speed);
+                m_animator.SetFloat("MoveSpeed", speed);
             } else
             {
                 Vector3 direction = (target.position - transform.position).normalized;
