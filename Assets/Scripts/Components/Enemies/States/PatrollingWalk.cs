@@ -51,7 +51,12 @@ namespace Components.Enemies.States
         }
         public override void FixedUpdate() //movimiento mientras no busca
         {
-            enemy.MoveTo(null, speed, rotationSpeed);
+            if (enemy.WallAtSight()) enemy.SetState(new RotatingToContinue(enemy));
+            else
+            {
+                enemy.MoveTo(null, speed, rotationSpeed);
+            }
+            
         }
 
     }

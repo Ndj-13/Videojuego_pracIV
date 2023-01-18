@@ -29,6 +29,7 @@ namespace Components.Enemies
         public Transform eyesTransform; //hemos creado una esfera que es el radio de vision y desde unity a esta variable le asignamos ese objeto
 
         private GameObject playerAtSight; //guarda si esta viendo al jugador
+        private GameObject wallAtSight;
 
         //private bool m_isGrounded; //el enemigo siempre esta en el suelo
 
@@ -123,13 +124,23 @@ namespace Components.Enemies
         {
             return playerAtSight;
         }
+        public GameObject WallAtSight()
+        {
+            return wallAtSight;
+        }
 
         private void OnTriggerEnter(Collider other) //si me entra una colision miro si es el jugador
         {
-            if (other.CompareTag("Player"))
+            if (other.gameObject.CompareTag("Player"))
             {
                 playerAtSight = PlayerIsOnSight(other.gameObject);
-            } 
+
+            } else if (other.gameObject.CompareTag("Wall"))
+            {
+                wallAtSight = WallIsOnSight(other.gameObject);
+            }
+
+            
         }
 
         private void OnTriggerStay(Collider other)
@@ -137,6 +148,15 @@ namespace Components.Enemies
             if (other.CompareTag("Player"))
             {
                 playerAtSight = PlayerIsOnSight(other.gameObject);
+            }
+            else if (other.gameObject.CompareTag("Wall"))
+            {
+                wallAtSight = WallIsOnSight(other.gameObject);
+
+                if(wallAtSight != null)
+                {
+                    Debug.Log("Estoy viendo algo enfrente");
+                }
             }
         }
 
@@ -147,24 +167,50 @@ namespace Components.Enemies
                 playerAtSight = null; //en el caso de q el jugador haya entrado en mi vision pero haya salido, tengo q devolver el valor a null
 
             }
-        }
-
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (collision.collider.CompareTag("Wall"))
+            else if (other.gameObject.CompareTag("Wall"))
             {
-
-                this.SetCurrentSpeed(0);
-
-                Debug.Log("He chocado con un muro: stop");
-
-                //angle = Quaternion.Angle(currentTransform.rotation, 90.0f);
-                this.SetState(new RotatingToContinue(this));
-
+                wallAtSight = null;
             }
-
         }
 
+        //private void OnCollisionEnter(Collision collision)
+        //{
+        //    if (collision.collider.CompareTag("Wall"))
+        //    {
+        //
+        //        this.SetCurrentSpeed(0);
+        //
+        //        Debug.Log("He chocado con un muro: stop");
+        //
+        //        //angle = Quaternion.Angle(currentTransform.rotation, 90.0f);
+        //        this.SetState(new RotatingToContinue(this));
+        //
+        //    }
+        //
+        //}
+
+        private GameObject WallIsOnSight(GameObject wall)
+        {
+            Vector3 wallDirection = (wall.transform.position - transform.position).normalized;
+            float range = 2.0f;
+            
+            //float angle = Vector3.Angle(transform.forward, wallDirection); //angulo tiene q ser 0 para girar
+            //Debug.Log($"Pared a un angulo de {angle} grados");
+
+            RaycastHit hit;
+
+            if (Physics.Raycast(transform.position, transform.forward, out hit, range)) //tiro una linea desde mi posicion hasta la suya para ver si hay algun objeto entre medias
+            {
+                if (hit.collider.CompareTag("Wall"))
+                {
+                    Debug.Log("Muro a poca distancia");
+                    return hit.collider.gameObject;
+                }
+                else return null;
+
+            } else return null;
+
+        }
 
         private GameObject PlayerIsOnSight(GameObject player)
         {
@@ -184,10 +230,6 @@ namespace Components.Enemies
                     {
                         return hit.collider.gameObject; //devuelve al jugador si no hay nada entre medias y devolvera null si hay algo entre medias
                                                         //(no lo veo porq hay algo en medio)
-                    } else if(hit.collider.CompareTag("Wall"))
-                    {
-                        this.SetCurrentSpeed(0);
-                        this.SetState(new RotatingToContinue(this));
                     }
                 }
             }

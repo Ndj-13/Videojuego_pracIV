@@ -9,6 +9,7 @@ public interface IEnemies
     public void SetState(IState state); //obtener metodo actual
     public IState GetState(); //establecer metodo actual --> cambiar de estado
 
+    public GameObject WallAtSight();
     public GameObject PlayerAtSight(); //dice si el jugador esta a la vista
 
     // Movement management
