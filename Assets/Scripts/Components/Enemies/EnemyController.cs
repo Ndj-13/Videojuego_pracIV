@@ -79,6 +79,17 @@ namespace Components.Enemies
         {
             m_animator.SetFloat("MoveSpeed", speed);
         }
+
+        public void Attack(bool active)
+        {
+            m_animator.SetBool("Attack", active);
+        }
+
+        public void NearToAttack(bool dist)
+        {
+            if(dist) m_animator.SetBool("Attack", true);
+            else m_animator.SetBool("Attack", false);
+        }
         #endregion
 
         #region Set y Get State, state pattern
@@ -124,10 +135,6 @@ namespace Components.Enemies
             {
                 playerAtSight = PlayerIsOnSight(other.gameObject);
             } 
-            //if(other.gameObject.CompareTag("Wall"))
-            //{
-            //    Debug.Log("He chocado con un muro");
-            //}
         }
 
         private void OnTriggerStay(Collider other)
@@ -143,12 +150,13 @@ namespace Components.Enemies
             if (other.CompareTag("Player"))
             {
                 playerAtSight = null; //en el caso de q el jugador haya entrado en mi vision pero haya salido, tengo q devolver el valor a null
+
             }
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            if(collision.collider.CompareTag("Wall"))
+            if (collision.collider.CompareTag("Wall"))
             {
 
                 this.SetCurrentSpeed(0);
@@ -159,63 +167,8 @@ namespace Components.Enemies
                 this.SetState(new RotatingToContinue(this));
 
             }
-            
-        }
-        /*
-        private void OnCollisionEnter(Collision collision)
-        {
-            ContactPoint[] contactPoints = collision.contacts;
-            for (int i = 0; i < contactPoints.Length; i++)
-            {
-                if (Vector3.Dot(contactPoints[i].normal, Vector3.up) > 0.5f)
-                {
-                    if (!m_collisions.Contains(collision.collider))
-                    {
-                        m_collisions.Add(collision.collider);
-                    }
-                    m_isGrounded = true;
-                }
-            }
-        }
 
-        private void OnCollisionStay(Collision collision)
-        {
-            ContactPoint[] contactPoints = collision.contacts;
-            bool validSurfaceNormal = false;
-            for (int i = 0; i < contactPoints.Length; i++)
-            {
-                if (Vector3.Dot(contactPoints[i].normal, Vector3.up) > 0.5f)
-                {
-                    validSurfaceNormal = true; break;
-                }
-            }
-
-            if (validSurfaceNormal)
-            {
-                m_isGrounded = true;
-                if (!m_collisions.Contains(collision.collider))
-                {
-                    m_collisions.Add(collision.collider);
-                }
-            }
-            else
-            {
-                if (m_collisions.Contains(collision.collider))
-                {
-                    m_collisions.Remove(collision.collider);
-                }
-                if (m_collisions.Count == 0) { m_isGrounded = false; }
-            }
         }
-
-        private void OnCollisionExit(Collision collision)
-        {
-            if (m_collisions.Contains(collision.collider))
-            {
-                m_collisions.Remove(collision.collider);
-            }
-            if (m_collisions.Count == 0) { m_isGrounded = false; }
-        }*/
 
 
         private GameObject PlayerIsOnSight(GameObject player)
@@ -236,6 +189,10 @@ namespace Components.Enemies
                     {
                         return hit.collider.gameObject; //devuelve al jugador si no hay nada entre medias y devolvera null si hay algo entre medias
                                                         //(no lo veo porq hay algo en medio)
+                    } else if(hit.collider.CompareTag("Wall"))
+                    {
+                        this.SetCurrentSpeed(0);
+                        this.SetState(new RotatingToContinue(this));
                     }
                 }
             }

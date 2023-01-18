@@ -8,7 +8,8 @@ namespace Components.Enemies.States
     public class RotatingToContinue : AEnemiesState
     {
         private Transform currentTransform; //transformada del zombie
-        private float angle = 1.2f;
+        private Transform newDirection;
+        private float angle = 1.25f;
         private float h = 0.0f;
 
         private float m_currentV = 0;

@@ -40,6 +40,19 @@ namespace Components.Enemies.States
             if (enemy.PlayerAtSight()) //mira si jugador continua a la vista o lo he perdido
             {
                 enemy.MoveTo(playerTransform, chaseSpeed, rotationSpeed); //sigo moviendome hacia el jugador
+
+                Vector3 toWaypoint = playerTransform.position - currentTransform.position;
+                toWaypoint.y = 0;
+                float distanceToWaypoint = toWaypoint.magnitude;
+
+                // Debug.Log($"Distance to waypoint: {distanceToWaypoint}");
+                if (distanceToWaypoint <= chaseSpeed)
+                {
+                    //Debug.Log($"Waypoint {currentWaypoint.name} reached");
+                    //enemy.SetState(new SearchingForWaypoint(zombie));
+                    enemy.NearToAttack(true);
+                }
+                else enemy.NearToAttack(false);
             }
             else
             {
