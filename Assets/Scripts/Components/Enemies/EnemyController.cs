@@ -17,11 +17,6 @@ namespace Components.Enemies
         [SerializeField] private Animator m_animator = null;
         [SerializeField] private Rigidbody m_rigidBody = null;
 
-        //private float m_currentV = 0;
-        //private float m_currentH = 0;
-        //
-        //private readonly float m_interpolation = 10;
-        //private Vector3 m_currentDirection = Vector3.zero;
 
         public int viewingAngle; //cuanto ve --> angulo de vision
         public float WanderSpeed;

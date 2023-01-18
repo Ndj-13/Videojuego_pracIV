@@ -38,6 +38,7 @@ public class CharacterControl : MonoBehaviour
     private float jumpTimeStamp = 0;
     private float minJumpInterval = 0.9f;
     private bool jumpInput = false; //boton de saltar pulsado
+    private int attackInput = 0;
 
     private bool _isGrounded; //saber si esta en el suelo
 
@@ -114,6 +115,15 @@ public class CharacterControl : MonoBehaviour
             jumpInput = true;
             Debug.Log("Saltar");
         } 
+        if(Input.GetKey(KeyCode.K))
+        {
+            attackInput = 1;
+            Debug.Log(attackInput+"Atacar"); 
+        } else if (Input.GetKey(KeyCode.L))
+        {
+            attackInput = 2;
+            Debug.Log(attackInput+"Super ataque");
+        }
         
     }
 
@@ -133,6 +143,7 @@ public class CharacterControl : MonoBehaviour
 
         wasGrounded = _isGrounded;
         jumpInput = false;
+        attackInput = 0;
     }
 
     private void TankUpdate()
@@ -164,7 +175,26 @@ public class CharacterControl : MonoBehaviour
         animator.SetFloat("MoveSpeed_H", currentH);
         animator.SetFloat("MoveSpeed_V", currentV);
 
+        Attack();
+
         JumpAndLanding();
+    }
+
+    private void Attack()
+    {
+        Debug.Log(attackInput);
+        if(attackInput == 1)
+        {
+            animator.SetInteger("Attack", 1);
+        }
+        else if (attackInput == 2)
+        {
+            animator.SetInteger("Attack", 2);
+        }
+        else
+        {
+            animator.SetInteger("Attack", 0);
+        }
     }
 
     private void JumpAndLanding()
