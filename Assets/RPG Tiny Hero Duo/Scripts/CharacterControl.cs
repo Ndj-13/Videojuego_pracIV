@@ -15,9 +15,13 @@ public class CharacterControl : MonoBehaviour
         //Direct
     }
 
+    //[SerializeField] private float moveSpeed = 2;
+    //[SerializeField] private float turnSpeed = 100;
+    //[SerializeField] private float jumpForce = 4;
     [SerializeField] private float moveSpeed = 2;
-    [SerializeField] private float turnSpeed = 100;
-    [SerializeField] private float jumpForce = 4;
+    //[SerializeField] private Health health;
+    private float turnSpeed = 100;
+    private float jumpForce = 4;
 
     [SerializeField] private Animator animator = null;
     [SerializeField] private Rigidbody rigidBody = null;
@@ -182,7 +186,7 @@ public class CharacterControl : MonoBehaviour
 
     private void Attack()
     {
-        Debug.Log(attackInput);
+        //Debug.Log(attackInput);
         if(attackInput == 1)
         {
             animator.SetInteger("Attack", 1);

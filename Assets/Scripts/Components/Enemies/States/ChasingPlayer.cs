@@ -21,13 +21,14 @@ namespace Components.Enemies.States
         {
             currentTransform = enemy.GetGameObject().transform;
             playerTransform = enemy.PlayerAtSight().transform;
-            //rotationSpeed = enemy.GetRotateSpeed();
+            rotationSpeed = enemy.GetRotateSpeed();
             chaseSpeed = enemy.GetChaseSpeed();
             //Debug.Log($"Enemy {enemy.GetGameObject().name} started chasing player");
         }
 
         public override void Exit()
         {
+            Debug.Log("Persiguiendo al jugador");
             //Debug.Log($"Enemy {enemy.GetGameObject().name} ended chasing player");
         }
 
@@ -37,26 +38,22 @@ namespace Components.Enemies.States
 
         public override void FixedUpdate()
         {
+            Vector3 toWaypoint = playerTransform.position - currentTransform.position;
+            toWaypoint.y = 0;
+            float distanceToWaypoint = toWaypoint.magnitude;
+
             if (enemy.PlayerAtSight()) //mira si jugador continua a la vista o lo he perdido
             {
-                enemy.MoveTo(playerTransform, chaseSpeed, rotationSpeed); //sigo moviendome hacia el jugador
-
-                Vector3 toWaypoint = playerTransform.position - currentTransform.position;
-                toWaypoint.y = 0;
-                float distanceToWaypoint = toWaypoint.magnitude;
-
-                // Debug.Log($"Distance to waypoint: {distanceToWaypoint}");
-                if (distanceToWaypoint <= chaseSpeed)
+                if (distanceToWaypoint > 1.5f)
                 {
-                    //Debug.Log($"Waypoint {currentWaypoint.name} reached");
-                    //enemy.SetState(new SearchingForWaypoint(zombie));
-                    enemy.NearToAttack(true);
+                    enemy.Attack(false);
+                    enemy.MoveTo(playerTransform, chaseSpeed, rotationSpeed); //sigo moviendome hacia el jugador
                 }
-                else enemy.NearToAttack(false);
-            }
+                else enemy.Attack(true);
+            }   
             else
             {
-                enemy.SetState(new PatrollingWalk(enemy)); //si lo he perdido vuelvo a patrullar
+                enemy.SetState(new SearchingForPlayer(enemy)); //si lo he perdido vuelvo a patrullar
             }
         }
     }

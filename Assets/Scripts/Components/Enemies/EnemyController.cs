@@ -81,11 +81,11 @@ namespace Components.Enemies
             m_animator.SetBool("Attack", active);
         }
 
-        public void NearToAttack(bool dist)
-        {
-            if(dist) m_animator.SetBool("Attack", true);
-            else m_animator.SetBool("Attack", false);
-        }
+        //public void NearToAttack(bool dist)
+        //{
+        //    if(dist) m_animator.SetBool("Attack", true);
+        //    else m_animator.SetBool("Attack", false);
+        //}
         #endregion
 
         #region Set y Get State, state pattern
@@ -133,30 +133,28 @@ namespace Components.Enemies
         {
             if (other.gameObject.CompareTag("Player"))
             {
+                //Debug.Log("Estoy viendo al jugador");
                 playerAtSight = PlayerIsOnSight(other.gameObject);
 
-            } else if (other.gameObject.CompareTag("Wall"))
+            }
+            else if (other.gameObject.CompareTag("Wall"))
             {
                 wallAtSight = WallIsOnSight(other.gameObject);
             }
+            //else if (other.gameObject.CompareTag("Weapon")) m_animator.SetTrigger("Damaged");
 
             
         }
 
         private void OnTriggerStay(Collider other)
         {
-            if (other.CompareTag("Player"))
+            if (other.gameObject.CompareTag("Player"))
             {
                 playerAtSight = PlayerIsOnSight(other.gameObject);
             }
             else if (other.gameObject.CompareTag("Wall"))
             {
                 wallAtSight = WallIsOnSight(other.gameObject);
-
-                if(wallAtSight != null)
-                {
-                    Debug.Log("Estoy viendo algo enfrente");
-                }
             }
         }
 
@@ -191,7 +189,7 @@ namespace Components.Enemies
 
         private GameObject WallIsOnSight(GameObject wall)
         {
-            Vector3 wallDirection = (wall.transform.position - transform.position).normalized;
+            //Vector3 wallDirection = (wall.transform.position - transform.position).normalized;
             float range = 2.0f;
             
             //float angle = Vector3.Angle(transform.forward, wallDirection); //angulo tiene q ser 0 para girar
@@ -203,7 +201,7 @@ namespace Components.Enemies
             {
                 if (hit.collider.CompareTag("Wall"))
                 {
-                    Debug.Log("Muro a poca distancia");
+                    //Debug.Log("Muro a poca distancia");
                     return hit.collider.gameObject;
                 }
                 else return null;

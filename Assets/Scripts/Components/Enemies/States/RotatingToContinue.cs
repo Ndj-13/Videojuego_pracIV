@@ -37,7 +37,7 @@ namespace Components.Enemies.States
             rightRotation = Quaternion.LookRotation(currentTransform.transform.right, currentTransform.up);
 
             //angle = Vector3.Angle(currentTransform.transform.forward, currentTransform.transform.right); //angulo tiene q ser 0 para girar
-            Debug.Log($"Direccion actual{currentTransform.position}");
+            //Debug.Log($"Direccion actual{currentTransform.position}");
 
         }
         public override void Exit()

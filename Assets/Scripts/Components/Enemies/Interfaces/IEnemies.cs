@@ -18,7 +18,7 @@ public interface IEnemies
     public float GetChaseSpeed(); //velocidad de perseguir
     public void SetCurrentSpeed(float speed); //
     public void Attack(bool active);
-    public void NearToAttack(bool dist);
+    //public void NearToAttack(bool dist);
     public void MoveTo(Transform target, float speed, float rotateSpeed);
 
     // Waypoints management

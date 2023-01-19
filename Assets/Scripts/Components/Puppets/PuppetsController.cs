@@ -5,6 +5,7 @@ using UnityEngine;
 public class PuppetsController : MonoBehaviour, IPuppet
 {
 
+    public PuppetsScriptable puppetType;
     public int viewingAngle; //cuanto ve --> angulo de vision
     public float WalkSpeed;
     public float RotateSpeed;

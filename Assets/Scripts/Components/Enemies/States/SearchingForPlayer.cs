@@ -15,6 +15,7 @@ namespace Components.Enemies.States
 
         public override void Enter()
         {
+            Debug.Log("Buscando al jugador");
             //Debug.Log($"Enemy {enemy.GetGameObject().name} started searching for player");
         }
 
@@ -27,6 +28,7 @@ namespace Components.Enemies.States
         {
             if (enemy.PlayerAtSight() != null) //si no devuelve null quiere decir q ha encontrado al jugador y lo persigue
             {
+                Debug.Log("Jugador encontrado");
                 enemy.SetState(new ChasingPlayer(enemy));
             }
             else

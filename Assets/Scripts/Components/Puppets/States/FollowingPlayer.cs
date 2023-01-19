@@ -54,7 +54,15 @@ public class FollowingPlayer : APuppetState
         {
             //Debug.Log("Following: jugador a la vista");
             //currentTransform.SetParent(playerTransform);
-            pup.MoveTo(playerTransform, walkSpeed, rotationSpeed); //sigo moviendome hacia el jugador
+            Vector3 toWaypoint = playerTransform.position - currentTransform.position;
+            toWaypoint.y = 0;
+            float distanceToWaypoint = toWaypoint.magnitude;
+
+            if (distanceToWaypoint > 1.0f) pup.MoveTo(playerTransform, walkSpeed, rotationSpeed); //sigo moviendome hacia el jugador
+        }
+        else
+        {
+            pup.SetState(new WaitingForPlayer(pup));
         }
         //pup.MoveTo(playerTransform, walkSpeed, rotationSpeed);
 
