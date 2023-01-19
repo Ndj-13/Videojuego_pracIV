@@ -14,9 +14,12 @@ namespace Components.Enemies
         [SerializeField] private float m_moveSpeed = 2;
         [SerializeField] private float m_turnSpeed = 100;
 
+        //[SerializeField] private BoxCollider hand;
+
         [SerializeField] private Animator m_animator = null;
         [SerializeField] private Rigidbody m_rigidBody = null;
 
+        //HitActivation hit = new HitActivation();
 
         public int viewingAngle; //cuanto ve --> angulo de vision
         public float WanderSpeed;
@@ -43,7 +46,8 @@ namespace Components.Enemies
             //{
             //    currentWaypoint = waypoints[0]; //si no sabemos cual es el actual se pone q vaya al 0
             //}
-
+            //if(!hand)  gameObject.GetComponent<BoxCollider>();
+            
             if (!m_animator) { gameObject.GetComponent<Animator>(); }
             if (!m_rigidBody) { gameObject.GetComponent<Animator>(); }
 
@@ -76,9 +80,12 @@ namespace Components.Enemies
             m_animator.SetFloat("MoveSpeed", speed);
         }
 
-        public void Attack(bool active)
+        public void Attack(float active)
         {
-            m_animator.SetBool("Attack", active);
+            //hand = hit.GetCollider();
+            //if (active < 1.6 && hand.enabled == false) hand.enabled = true;
+            //else hit.DesactivarCollider(hand);
+            m_animator.SetFloat("Attack", active);
         }
 
         //public void NearToAttack(bool dist)
@@ -111,6 +118,7 @@ namespace Components.Enemies
         private void Update()
         {
             currentState.Update(); //llama a update de estado actual
+            
         }
 
         private void FixedUpdate()
@@ -151,10 +159,12 @@ namespace Components.Enemies
             if (other.gameObject.CompareTag("Player"))
             {
                 playerAtSight = PlayerIsOnSight(other.gameObject);
+
             }
             else if (other.gameObject.CompareTag("Wall"))
             {
                 wallAtSight = WallIsOnSight(other.gameObject);
+
             }
         }
 
@@ -171,21 +181,26 @@ namespace Components.Enemies
             }
         }
 
-        //private void OnCollisionEnter(Collision collision)
-        //{
-        //    if (collision.collider.CompareTag("Wall"))
-        //    {
-        //
-        //        this.SetCurrentSpeed(0);
-        //
-        //        Debug.Log("He chocado con un muro: stop");
-        //
-        //        //angle = Quaternion.Angle(currentTransform.rotation, 90.0f);
-        //        this.SetState(new RotatingToContinue(this));
-        //
-        //    }
-        //
-        //}
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.collider.CompareTag("Weapon"))
+            {
+                Debug.Log("Enemigo abatido");
+                m_animator.SetTrigger("Hurt");
+        
+            }
+        
+        }
+
+        private void OnCollisionExit(Collision collision)
+        {
+            if (collision.collider.CompareTag("Weapon"))
+            {
+                m_animator.ResetTrigger("Hurt");
+
+            }
+
+        }
 
         private GameObject WallIsOnSight(GameObject wall)
         {

@@ -22,6 +22,7 @@ public class CharacterControl : MonoBehaviour
     //[SerializeField] private Health health;
     private float turnSpeed = 100;
     private float jumpForce = 4;
+    //[SerializeField] private BoxCollider weapon;
 
     [SerializeField] private Animator animator = null;
     [SerializeField] private Rigidbody rigidBody = null;
@@ -50,12 +51,29 @@ public class CharacterControl : MonoBehaviour
 
     private void Awake()
     {
+        //if (!weapon) { gameObject.GetComponent<BoxCollider>(); }
         if (!animator) { gameObject.GetComponent<Animator>(); }
         if (!rigidBody) { gameObject.GetComponent<Animator>(); }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+       
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
+        
         ContactPoint[] contactPoints = collision.contacts;
         for (int i = 0; i < contactPoints.Length; i++)
         {
@@ -68,6 +86,14 @@ public class CharacterControl : MonoBehaviour
                 _isGrounded = true;
             }
         }
+
+        if (collision.collider.CompareTag("EnemyHand"))
+        {
+            Debug.Log("Auch");
+            animator.SetTrigger("Hurt");
+        }
+
+
     }
 
     private void OnCollisionStay(Collision collision)
@@ -98,6 +124,11 @@ public class CharacterControl : MonoBehaviour
             }
             if (_collisions.Count == 0) { _isGrounded = false; }
         }
+
+        if (collision.collider.CompareTag("EnemyHand"))
+        {
+            //collision.collider.enabled = false;
+        }
     }
 
     private void OnCollisionExit(Collision collision)
@@ -107,6 +138,13 @@ public class CharacterControl : MonoBehaviour
             _collisions.Remove(collision.collider);
         }
         if (_collisions.Count == 0) { _isGrounded = false; }
+
+        if (collision.collider.CompareTag("EnemyHand"))
+        {
+            Debug.Log("Fuera puño");
+            animator.ResetTrigger("Hurt");
+            //collision.collider.enabled = true;
+        }
     }
 
 
@@ -122,11 +160,11 @@ public class CharacterControl : MonoBehaviour
         if(Input.GetKey(KeyCode.K))
         {
             attackInput = 1;
-            Debug.Log(attackInput+"Atacar"); 
+            //Debug.Log(attackInput+"Atacar"); 
         } else if (Input.GetKey(KeyCode.L))
         {
             attackInput = 2;
-            Debug.Log(attackInput+"Super ataque");
+            //Debug.Log(attackInput+"Super ataque");
         }
         
     }

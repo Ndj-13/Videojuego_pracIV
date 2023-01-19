@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Weapon
   - Puppet
+  - EnemyHand
   layers:
   - Default
   - TransparentFX

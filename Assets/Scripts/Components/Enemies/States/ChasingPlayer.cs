@@ -12,6 +12,10 @@ namespace Components.Enemies.States
 
         private float rotationSpeed;
         private float chaseSpeed;
+        private float move;
+        
+
+        float update;
 
         public ChasingPlayer(IEnemies enemy) : base(enemy)
         {
@@ -23,12 +27,13 @@ namespace Components.Enemies.States
             playerTransform = enemy.PlayerAtSight().transform;
             rotationSpeed = enemy.GetRotateSpeed();
             chaseSpeed = enemy.GetChaseSpeed();
-            //Debug.Log($"Enemy {enemy.GetGameObject().name} started chasing player");
+
+            Debug.Log($"Enemy {enemy.GetGameObject().name} started chasing player");
         }
 
         public override void Exit()
         {
-            Debug.Log("Persiguiendo al jugador");
+            //Debug.Log("Persiguiendo al jugador");
             //Debug.Log($"Enemy {enemy.GetGameObject().name} ended chasing player");
         }
 
@@ -44,12 +49,17 @@ namespace Components.Enemies.States
 
             if (enemy.PlayerAtSight()) //mira si jugador continua a la vista o lo he perdido
             {
+                //Debug.Log($"Distancia del jugador{distanceToWaypoint}");
+                enemy.Attack(distanceToWaypoint);
+
                 if (distanceToWaypoint > 1.5f)
                 {
-                    enemy.Attack(false);
-                    enemy.MoveTo(playerTransform, chaseSpeed, rotationSpeed); //sigo moviendome hacia el jugador
+                    move = chaseSpeed;
+                    //enemy.Attack(distanceToWA);
+                    enemy.MoveTo(playerTransform, move, rotationSpeed); //sigo moviendome hacia el jugador
                 }
-                else enemy.Attack(true);
+                else move = 0;
+                //else enemy.Attack(distanceToWaypoint);
             }   
             else
             {

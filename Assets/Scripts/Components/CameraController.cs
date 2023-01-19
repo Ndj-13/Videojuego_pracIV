@@ -10,11 +10,13 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
+        //if(!Player) { gameObject.GetComponent<GameObject>(); }
         dist = transform.position - Player.transform.position; //camara-jugador
     }
 
     private void Update()
     {
         transform.position = Player.transform.position + dist;
+        //if (Player.GetComponent<BoxCollider>().enabled = true) Player = null;
     }
 }

@@ -21,6 +21,7 @@ namespace Components.Enemies.States
         //Redefinimos estados como abstractos:
         public override void Enter()
         {
+            enemy.Attack(2.0f);
             Debug.Log("Patrullando");
             //Al entrar en el estado andar andamos hacia delante
             currentTransform = enemy.GetGameObject().transform;
