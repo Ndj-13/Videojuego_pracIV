@@ -13,9 +13,6 @@ namespace Components.Enemies.States
         private float rotationSpeed;
         private float chaseSpeed;
         private float move;
-        
-
-        float update;
 
         public ChasingPlayer(IEnemies enemy) : base(enemy)
         {
@@ -50,7 +47,7 @@ namespace Components.Enemies.States
             if (enemy.PlayerAtSight()) //mira si jugador continua a la vista o lo he perdido
             {
                 //Debug.Log($"Distancia del jugador{distanceToWaypoint}");
-                enemy.Attack(distanceToWaypoint);
+                //enemy.Attack(distanceToWaypoint);
 
                 if (distanceToWaypoint > 1.5f)
                 {
@@ -58,7 +55,11 @@ namespace Components.Enemies.States
                     //enemy.Attack(distanceToWA);
                     enemy.MoveTo(playerTransform, move, rotationSpeed); //sigo moviendome hacia el jugador
                 }
-                else move = 0;
+                else
+                {
+                    move = 0;
+                    enemy.SetState(new AttackPlayer(enemy));
+                }
                 //else enemy.Attack(distanceToWaypoint);
             }   
             else
