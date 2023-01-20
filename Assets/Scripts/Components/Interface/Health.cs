@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Health : MonoBehaviour
 {
     //[SerializeField] private float startingHealth;
-    private float startingHealth;
+    private float startingHealth = 5;
     public float currentHealth;
     public int numHearts;
 
@@ -15,12 +15,13 @@ public class Health : MonoBehaviour
     public Sprite halfHeart;
     public Sprite emptyHeart;
 
+
     private Animator anim;
     private bool dead;
     private void Awake()
     {
         currentHealth = startingHealth;
-        anim = GetComponent<Animator>();
+        if (!anim) { anim = GetComponent<Animator>(); }
     }
 
     public void TakeDamage(float damage)
@@ -29,6 +30,7 @@ public class Health : MonoBehaviour
 
         if (currentHealth > 0)
         {
+            Debug.Log("Auch");
             anim.SetTrigger("Hurt");
 
         }
@@ -43,8 +45,6 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-        
         for (int i = 0; i < hearts.Length; i++)
         {
            
@@ -72,8 +72,5 @@ public class Health : MonoBehaviour
                 hearts[i].enabled = false;
             }
         }
-
-        if(Input.GetKeyDown(KeyCode.E))
-            TakeDamage(0.5f);
     }
 }

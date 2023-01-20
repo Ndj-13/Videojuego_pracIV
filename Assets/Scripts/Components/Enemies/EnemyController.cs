@@ -10,48 +10,48 @@ namespace Components.Enemies
 {
     public class EnemyController : MonoBehaviour, IEnemies
     {
-        //Variables movimeinto personaje
-        [SerializeField] private float m_moveSpeed = 2;
-        [SerializeField] private float m_turnSpeed = 100;
+        /*------------------------------------------------
+         * Propiedades dependientes del tipo de enemigo:
+        --------------------------------------------------*/
+        public EnemiesScriptable enemyType;
+        private int life;
 
-        //[SerializeField] private BoxCollider hand;
+        /*------------------------------------------------
+         * Otras propiedades del enemigo:
+        -------------------------------------------------*/
+        //Movimiento
+        //[SerializeField] private float m_moveSpeed = 2;
+        /*[SerializeField]*/ private float m_turnSpeed = 100;
 
         [SerializeField] private Animator m_animator = null;
         [SerializeField] private Rigidbody m_rigidBody = null;
 
-        //HitActivation hit = new HitActivation();
-
+        /*---------------------------------------------------
+         * Estados del enemigo:
+        -----------------------------------------------------*/
         public int viewingAngle; //cuanto ve --> angulo de vision
         public float WanderSpeed;
         public float ChaseSpeed;
-        //public float RotateSpeed;
 
-        private IState currentState; //mantiene estado actual --> contexto sabe cual es el estado actual
+        private IState currentState; 
 
-        //private Animator animator; //para cambiar de animacion
-        public Transform eyesTransform; //hemos creado una esfera que es el radio de vision y desde unity a esta variable le asignamos ese objeto
+        /*-----------------------------------------------------
+         * Vision del enemigo:
+        ------------------------------------------------------*/
+        public Transform eyesTransform; 
 
-        private GameObject playerAtSight; //guarda si esta viendo al jugador
+        private GameObject playerAtSight; 
         private GameObject wallAtSight;
 
-        //private bool m_isGrounded; //el enemigo siempre esta en el suelo
-
-        //private List<Collider> m_collisions = new List<Collider>();
-
         private void Awake()
-        {
-            //assert: si no se cumple corta codigo para q pare --> comprueba q al menos haya un waypoint definido
-            //Assert.IsTrue(waypoints.Length > 0, "Waypoints must be greater than 1");
-            //if (currentWaypoint == null)
-            //{
-            //    currentWaypoint = waypoints[0]; //si no sabemos cual es el actual se pone q vaya al 0
-            //}
-            //if(!hand)  gameObject.GetComponent<BoxCollider>();
-            
+        {            
             if (!m_animator) { gameObject.GetComponent<Animator>(); }
             if (!m_rigidBody) { gameObject.GetComponent<Animator>(); }
+            //if (!health) { health = new Health(); }
 
-            SetState(new PatrollingWalk(this)); //contexto esta poniendo como estado inicial el search y a partir de aqui ya los otros estados van saltando de un estado a otro
+            life = enemyType.maxLife;
+
+            SetState(new PatrollingWalk(this)); 
         }
 
         public GameObject GetGameObject()
@@ -82,17 +82,8 @@ namespace Components.Enemies
 
         public void Attack(float active)
         {
-            //hand = hit.GetCollider();
-            //if (active < 1.6 && hand.enabled == false) hand.enabled = true;
-            //else hit.DesactivarCollider(hand);
             m_animator.SetFloat("Attack", active);
         }
-
-        //public void NearToAttack(bool dist)
-        //{
-        //    if(dist) m_animator.SetBool("Attack", true);
-        //    else m_animator.SetBool("Attack", false);
-        //}
         #endregion
 
         #region Set y Get State, state pattern
@@ -103,16 +94,13 @@ namespace Components.Enemies
 
         public void SetState(IState state)
         {
-            //cuando algn le llama para cambiar de estado, comprueba estado actual para ejecutar metodo exit, para salir del estado
-            // Exit old state
             if (currentState != null)
             {
                 currentState.Exit();
             }
 
-            // Set current state and enter
-            currentState = state; //dice cual es el nuevo estado actual
-            currentState.Enter(); // le dice q ejecute nuevo estado
+            currentState = state; 
+            currentState.Enter(); 
         }
 
         private void Update()
@@ -137,7 +125,7 @@ namespace Components.Enemies
             return wallAtSight;
         }
 
-        private void OnTriggerEnter(Collider other) //si me entra una colision miro si es el jugador
+        private void OnTriggerEnter(Collider other) 
         {
             if (other.gameObject.CompareTag("Player"))
             {
@@ -149,7 +137,6 @@ namespace Components.Enemies
             {
                 wallAtSight = WallIsOnSight(other.gameObject);
             }
-            //else if (other.gameObject.CompareTag("Weapon")) m_animator.SetTrigger("Damaged");
 
             
         }
@@ -187,7 +174,16 @@ namespace Components.Enemies
             {
                 Debug.Log("Enemigo abatido");
                 m_animator.SetTrigger("Hurt");
-        
+                life -= 5;
+                Debug.Log($"Life: {life}");
+                //health.TakeDamage(10.0f);
+
+                if(life == 0)
+                {
+                    m_animator.SetBool("Dead", true);
+                    currentState = new DeadState(this);
+                }
+
             }
         
         }

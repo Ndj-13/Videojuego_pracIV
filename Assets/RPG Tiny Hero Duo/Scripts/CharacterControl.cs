@@ -23,6 +23,7 @@ public class CharacterControl : MonoBehaviour
     private float turnSpeed = 100;
     private float jumpForce = 4;
     //[SerializeField] private BoxCollider weapon;
+    private Health health;
 
     [SerializeField] private Animator animator = null;
     [SerializeField] private Rigidbody rigidBody = null;
@@ -54,6 +55,7 @@ public class CharacterControl : MonoBehaviour
         //if (!weapon) { gameObject.GetComponent<BoxCollider>(); }
         if (!animator) { gameObject.GetComponent<Animator>(); }
         if (!rigidBody) { gameObject.GetComponent<Animator>(); }
+        if (!health) { health = FindObjectOfType<Health>(); }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -90,7 +92,8 @@ public class CharacterControl : MonoBehaviour
         if (collision.collider.CompareTag("EnemyHand"))
         {
             Debug.Log("Auch");
-            animator.SetTrigger("Hurt");
+            //animator.SetTrigger("Hurt");
+            health.TakeDamage(0.5f);
         }
 
 

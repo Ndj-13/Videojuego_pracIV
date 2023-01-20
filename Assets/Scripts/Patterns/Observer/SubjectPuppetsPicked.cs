@@ -8,6 +8,7 @@ namespace Components.UI
     public class SubjectPuppetsPicked : MonoBehaviour, ISubject<int>
     {
         [SerializeField] public int Puppets = 0;
+        Collected textoCollected;
 
         public void OnTriggerEnter(Collider other)
         {
@@ -42,6 +43,7 @@ namespace Components.UI
             foreach (IObserver<int> observer in _observers)
             {
                 observer?.UpdateObserver(Puppets);
+                textoCollected.AddCollected(Puppets);
             }
         }
     }
