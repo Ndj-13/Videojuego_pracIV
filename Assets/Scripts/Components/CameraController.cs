@@ -12,6 +12,7 @@ public class CameraController : MonoBehaviour
     {
         //if(!Player) { gameObject.GetComponent<GameObject>(); }
         dist = transform.position - Player.transform.position; //camara-jugador
+        //transform.Rotate(0, dist * Time.deltaTime, 0);
     }
 
     private void Update()
