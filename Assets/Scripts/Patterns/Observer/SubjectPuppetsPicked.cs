@@ -1,31 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 //using Patterns.Observer.Interfaces;
+using Components.GameManagement.Scores;
 using UnityEngine;
 
-namespace Components.UI
+namespace Patterns.Observer
 {
     public class SubjectPuppetsPicked : MonoBehaviour, ISubject<int>
     {
-        [SerializeField] public int Puppets = 0;
-        Collected textoCollected;
+        //[SerializeField] public int Puppets = 0;
+        //PuppetCounter textPuppets;
 
-        public void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.CompareTag("Puppet"))
-            {
-                Puppets++;
-                NotifyObservers();
-            }
-        }
-        public void OnTriggerExit(Collider other)
-        {
-            if (other.gameObject.CompareTag("Puppet"))
-            {
-                Puppets--;
-                NotifyObservers();
-            }
-        }
 
         private List<IObserver<int>> _observers = new List<IObserver<int>>();
 
@@ -38,12 +23,13 @@ namespace Components.UI
             _observers.Remove(observer);
         }
 
-        public void NotifyObservers()
+        public void NotifyObservers(int newPuppet)
         {
             foreach (IObserver<int> observer in _observers)
             {
-                observer?.UpdateObserver(Puppets);
-                textoCollected.AddCollected(Puppets);
+                Debug.Log($"Notificando observador {observer}");
+                observer?.UpdateObserver(newPuppet);
+                //textPuppets.AddCollected(Puppets);
             }
         }
     }

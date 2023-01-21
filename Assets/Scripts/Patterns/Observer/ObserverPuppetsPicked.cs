@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Components.GameManagement.Scores;
 using UnityEngine;
 
-namespace Components.UI
-{
-    public class ObserverPuppetsPicked : MonoBehaviour, IObserver<int>
+namespace Patterns.Observer
+{ 
+    public class ObserverPuppetsPicked : MonoBehaviour
     {
         private void Awake()
         {
@@ -14,8 +15,11 @@ namespace Components.UI
 
         public void UpdateObserver(int data)
         {
-            TextMeshProUGUI text = GetComponent<TextMeshProUGUI>();
-            text.text = $"Puppets: {data}";
+            Debug.Log("Notificando al observador");
+            //TextMeshProUGUI text = GetComponent<TextMeshProUGUI>();
+            //text.text = $"Puppets: {data}";
+
+            //PuppetCounter counter;
         }
     }
 }

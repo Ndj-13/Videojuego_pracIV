@@ -240,10 +240,9 @@ namespace Components.Enemies
                         return hit.collider.gameObject; //devuelve al jugador si no hay nada entre medias y devolvera null si hay algo entre medias
                                                         //(no lo veo porq hay algo en medio)
                     }
-                }
-            }
-
-            return null;
+                    else return null;
+                } else return null;
+            } else return null;
         }
         #endregion
 

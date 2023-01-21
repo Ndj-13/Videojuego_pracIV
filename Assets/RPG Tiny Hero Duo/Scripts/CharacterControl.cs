@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Patterns.Observer;
+using Components.GameManagement.Scores;
 using UnityEngine;
 
 public class CharacterControl : MonoBehaviour
@@ -51,26 +53,120 @@ public class CharacterControl : MonoBehaviour
 
     private List<Collider> _collisions = new List<Collider>();
 
+    SubjectPuppetsPicked publicarPuppets;
+    [SerializeField] PuppetCounter observandoPuppets;
+
+    [SerializeField] public Transform campoLimite;
+
+    private GameObject puppetAtSight;
+    private int notificar;
+    private int numPuppets;
+
     private void Awake()
     {
         //if (!weapon) { gameObject.GetComponent<BoxCollider>(); }
         if (!animator) { gameObject.GetComponent<Animator>(); }
         if (!rigidBody) { gameObject.GetComponent<Animator>(); }
         if (!health) { health = FindObjectOfType<Health>(); }
+        if (!campoLimite) { gameObject.GetComponent<Transform>(); }
+
+        if (!publicarPuppets) { publicarPuppets = new SubjectPuppetsPicked(); }
+        if (!observandoPuppets) { gameObject.GetComponent<PuppetCounter>(); }
+
+        publicarPuppets.AddObserver(observandoPuppets);
+
+        notificar = 0;
+        numPuppets = 0;
+     }
+
+    public GameObject PuppetAtSight()
+    {
+        return puppetAtSight;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        
+        if(other.gameObject.CompareTag("Puppet"))
+        { 
+            numPuppets++;
+            //puppetAtSight = PuppetIsOnSight(other.gameObject);
+            //if (puppetAtSight != null)
+            //{
+            //    Debug.Log($"Nuevo puppet, numero de puppets: {numPuppets}");
+            //    notificar++;
+            //    publicarPuppets.NotifyObservers(1);
+            //}
+            //else Debug.Log("Hay algo cerca pero no lo veo");
+        }
+
+
+        ////Debug.Log("Veo algo");
+        //if (PuppetAtSight() != null)
+        //{
+        //    Debug.Log("Nuevo Puppet");
+        //    notificar = 1;
+        //    publicarPuppets.NotifyObservers(notificar);
+        //}
     }
 
     private void OnTriggerStay(Collider other)
     {
-       
+        if (other.gameObject.CompareTag("Puppet"))
+        {
+            Vector3 toWaypoint = other.gameObject.transform.position - transform.position;
+            toWaypoint.y = 0;
+            float distanceToWaypoint = toWaypoint.magnitude;
+
+            if (distanceToWaypoint < 1.5f)
+            {
+                if(notificar < numPuppets)
+                {
+                    notificar++;
+                    publicarPuppets.NotifyObservers(1);
+                }
+                
+            }
+
+        }
+        //{
+        //    //Debug.Log("Sigue habiendo algo cerca");
+        //    //Debug.Log($"Notficar: {notificar} < numPuppets: {numPuppets}");
+        //    if (notificar < numPuppets && puppetAtSight != null)
+        //    {
+        //        Debug.Log("Espera, ¿es un puppet!");
+        //        notificar++;
+        //        publicarPuppets.NotifyObservers(1);
+        //    }
+        //}
     }
 
     private void OnTriggerExit(Collider other)
     {
+        if (other.gameObject.CompareTag("Puppet"))
+        {
+            numPuppets--;
+            if(numPuppets < notificar)
+            {
+                notificar--;
+                publicarPuppets.NotifyObservers(-1);
+            }
+            //numPuppets--;
+            //puppetAtSight = null;
+            //if (notificar == numPuppets && notificar > 0)
+            //{
+            //    notificar--;
+            //    publicarPuppets.NotifyObservers(-1);
+            //}
+        }
+
+        //puppetAtSight = PuppetIsOnSight(other.gameObject);
+
+        //if (PuppetAtSight() == null && notificar == 1)
+        //{
+        //    notificar = -1;
+        //    Debug.Log("Hemos perdido al Puppet");
+        //    publicarPuppets.NotifyObservers(-1);
+        //}
         
     }
 
@@ -264,6 +360,30 @@ public class CharacterControl : MonoBehaviour
 
     }
 
+    private GameObject PuppetIsOnSight(GameObject pup)
+    {
+        Vector3 pupDirection = (pup.transform.position - transform.position).normalized;
+        float angle = Vector3.Angle(transform.forward, pupDirection); //calculo direccion entre el jugador y enemigo
+
+        if (angle < 360 / 2)
+        {
+            RaycastHit hit;
+
+            Vector3 endPosition = pup.transform.position;
+            endPosition.y = campoLimite.position.y;
+
+            if (Physics.Linecast(campoLimite.position, pup.transform.position, out hit)) //tiro una linea desde mi posicion hasta la suya para ver si hay algun objeto entre medias
+            {
+                if (hit.collider.CompareTag("Puppet"))
+                {
+                    return hit.collider.gameObject;
+                }
+                else return null;
+            }
+            else return null;
+        }
+        else return null;
+    }
     /*
 
     private void FixedUpdate()

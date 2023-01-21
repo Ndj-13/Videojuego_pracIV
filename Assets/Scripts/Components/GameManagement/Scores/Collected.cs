@@ -7,6 +7,7 @@ using TMPro;
 public class Collected : MonoBehaviour
 {
     public TextMeshProUGUI numCollectedText; //puntos por recoger patitos
+
     public int numCollected;
     
     // Start is called before the first frame update

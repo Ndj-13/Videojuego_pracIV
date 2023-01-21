@@ -36,7 +36,7 @@ public class CameraController : MonoBehaviour
 
         if (toTargetRotation.y != 0.0f)
         {
-            Debug.Log("Personaje girando");
+            //Debug.Log("Personaje girando");
             //Quaternion toTargetRotation = Quaternion.LookRotation(dist.normalized, Vector3.up);
             //transform.rotation = Quaternion.RotateTowards(transform.rotation, toTargetRotation,
             //    turnSpeed * Time.deltaTime);
