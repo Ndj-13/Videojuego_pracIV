@@ -46,7 +46,7 @@ namespace Components.Enemies.States
 
             if (canAttack == 0)
             {
-                Debug.Log("Puede atacar");
+                //Debug.Log("Puede atacar");
                 enemy.Attack(distanceToWaypoint);
                 canAttack++;
             } else
@@ -57,7 +57,7 @@ namespace Components.Enemies.States
             {
                 enemy.SetState(new SearchingForPlayer(enemy));
                 lastSeek = 0f;
-                Debug.Log("Seeking for enemy");
+                //Debug.Log("Seeking for enemy");
             }
         }
     }

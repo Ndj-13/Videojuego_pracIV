@@ -25,7 +25,7 @@ namespace Components.Enemies.States
             rotationSpeed = enemy.GetRotateSpeed();
             chaseSpeed = enemy.GetChaseSpeed();
 
-            Debug.Log($"Enemy {enemy.GetGameObject().name} started chasing player");
+            //Debug.Log($"Enemy {enemy.GetGameObject().name} started chasing player");
         }
 
         public override void Exit()

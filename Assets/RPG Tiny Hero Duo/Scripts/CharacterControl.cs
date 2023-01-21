@@ -30,6 +30,7 @@ public class CharacterControl : MonoBehaviour
 
     [SerializeField] private ControlMode controlMode = ControlMode.Tank;
 
+
     private float currentV = 0;
     private float currentH = 0;
 

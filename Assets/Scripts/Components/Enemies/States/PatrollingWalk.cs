@@ -22,7 +22,7 @@ namespace Components.Enemies.States
         public override void Enter()
         {
             enemy.Attack(2.0f);
-            Debug.Log("Patrullando");
+            //Debug.Log("Patrullando");
             //Al entrar en el estado andar andamos hacia delante
             currentTransform = enemy.GetGameObject().transform;
             speed = enemy.GetWanderSpeed();

@@ -19,12 +19,22 @@ public class MazeSpawner : MonoBehaviour {
 	public GameObject Floor = null;
 	public GameObject Wall = null;
 	public GameObject Pillar = null;
+	//public GameObject SubWall = null;
+
+	//public GameObject[] Flowers;
+	//public GameObject[] Plants;
+	//public GameObject Flowers = null;
 	public int Rows = 5;
 	public int Columns = 5;
 	public float CellWidth = 5;
 	public float CellHeight = 5;
 	public bool AddGaps = true;
 	public GameObject GoalPrefab = null;
+
+	//int randomFlower;
+	//int randomPlant;
+	//float randomPosX;
+	//float randomPosZ;
 
 	private BasicMazeGenerator mMazeGenerator = null;
 
@@ -58,22 +68,51 @@ public class MazeSpawner : MonoBehaviour {
 				GameObject tmp;
 				tmp = Instantiate(Floor,new Vector3(x,0,z), Quaternion.Euler(0,0,0)) as GameObject;
 				tmp.transform.parent = transform;
-				if(cell.WallRight){
+
+				//if (column / 2 == 0)
+				//{
+				//randomFlower = Random.Range(0, Flowers.Length);
+				//randomPlant = Random.Range(0, Plants.Length);
+				//randomPosX = Random.Range(column*CellWidth, (column*CellWidth)+CellWidth);
+				//randomPosZ = Random.Range(row*CellHeight, (row*CellHeight)*CellHeight);
+
+				//tmp = Instantiate(Flowers[randomFlower], new Vector3(randomPosX, 0, randomPosZ), Quaternion.Euler(0, 0, 0)) as GameObject;
+				//tmp.transform.parent = transform;
+				//
+				//randomFlower = Random.Range(0, Flowers.Length);
+				//
+				//tmp = Instantiate(Flowers[randomFlower], new Vector3(randomPosZ, 0, randomPosX), Quaternion.Euler(0, 0, 0)) as GameObject;
+				//tmp.transform.parent = transform;
+
+				if (cell.WallRight){
 					tmp = Instantiate(Wall,new Vector3(x+CellWidth/2,0,z)+Wall.transform.position,Quaternion.Euler(0,90,0)) as GameObject;// right
 					tmp.transform.parent = transform;
+					//tmp = Instantiate(SubWall, new Vector3(x + CellWidth / 2, 0, z) + SubWall.transform.position, Quaternion.Euler(0, 90, 0)) as GameObject;// right
+					//tmp.transform.parent = transform;
+					//for(int i = 0; i < CellWidth; i ++)
+					//{
+					//	tmp = Instantiate(Plants[randomPlant], new Vector3(x + CellWidth / 2, 0, z) + Plants[randomPlant].transform.position, Quaternion.Euler(0, 90, 0)) as GameObject;// right
+					//	tmp.transform.parent = transform;
+					//}
 				}
 				if(cell.WallFront){
 					tmp = Instantiate(Wall,new Vector3(x,0,z+CellHeight/2)+Wall.transform.position,Quaternion.Euler(0,0,0)) as GameObject;// front
 					tmp.transform.parent = transform;
+					//tmp = Instantiate(SubWall, new Vector3(x, 0, z + CellHeight / 2) + SubWall.transform.position, Quaternion.Euler(0, 0, 0)) as GameObject;// front
+					//tmp.transform.parent = transform;
 				}
 				if(cell.WallLeft){
 					tmp = Instantiate(Wall,new Vector3(x-CellWidth/2,0,z)+Wall.transform.position,Quaternion.Euler(0,270,0)) as GameObject;// left
 					tmp.transform.parent = transform;
+					//tmp = Instantiate(SubWall, new Vector3(x - CellWidth / 2, 0, z) + SubWall.transform.position, Quaternion.Euler(0, 270, 0)) as GameObject;// left
+					//tmp.transform.parent = transform;
 				}
 				if(cell.WallBack){
 					tmp = Instantiate(Wall,new Vector3(x,0,z-CellHeight/2)+Wall.transform.position,Quaternion.Euler(0,180,0)) as GameObject;// back
 					tmp.transform.parent = transform;
-				}
+					//tmp = Instantiate(SubWall, new Vector3(x, 0, z - CellHeight / 2) + SubWall.transform.position, Quaternion.Euler(0, 180, 0)) as GameObject;// back
+					//tmp.transform.parent = transform;
+				}	//
 				if(cell.IsGoal && GoalPrefab != null){
 					tmp = Instantiate(GoalPrefab,new Vector3(x,1,z), Quaternion.Euler(0,0,0)) as GameObject;
 					tmp.transform.parent = transform;
