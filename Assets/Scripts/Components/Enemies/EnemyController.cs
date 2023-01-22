@@ -42,6 +42,7 @@ namespace Components.Enemies
 
         private GameObject playerAtSight; 
         private GameObject wallAtSight;
+        private GameObject insideTrigger;
 
         private void Awake()
         {            
@@ -83,6 +84,11 @@ namespace Components.Enemies
         public void Attack(float active)
         {
             m_animator.SetFloat("Attack", active);
+        }
+
+        public GameObject Radius()
+        {
+            return insideTrigger;
         }
         #endregion
 
@@ -131,13 +137,14 @@ namespace Components.Enemies
             {
                 //Debug.Log("Estoy viendo al jugador");
                 playerAtSight = PlayerIsOnSight(other.gameObject);
+                insideTrigger = other.gameObject;
 
             }
             else if (other.gameObject.CompareTag("Wall"))
             {
                 wallAtSight = WallIsOnSight(other.gameObject);
             }
-
+            
             
         }
 
@@ -146,6 +153,7 @@ namespace Components.Enemies
             if (other.gameObject.CompareTag("Player"))
             {
                 playerAtSight = PlayerIsOnSight(other.gameObject);
+                insideTrigger = other.gameObject;
 
             }
             else if (other.gameObject.CompareTag("Wall"))
@@ -160,6 +168,7 @@ namespace Components.Enemies
             if (other.CompareTag("Player"))
             {
                 playerAtSight = null; //en el caso de q el jugador haya entrado en mi vision pero haya salido, tengo q devolver el valor a null
+                insideTrigger = null;
 
             }
             else if (other.gameObject.CompareTag("Wall"))

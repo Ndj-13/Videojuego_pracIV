@@ -32,7 +32,7 @@ namespace Components.GameManagement.Scores
         // Update is called once per frame
         void Update()
         {
-            numPuppetsText.text = numCollected.ToString("");
+            numPuppetsText.text = numCollected.ToString("") + "/4";
             //player.gameObject.
             //player.
         }

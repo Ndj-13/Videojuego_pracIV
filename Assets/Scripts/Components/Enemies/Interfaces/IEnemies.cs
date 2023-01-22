@@ -6,6 +6,7 @@ using Components.Enemies.Interfaces;
 public interface IEnemies
 {
     public GameObject GetGameObject(); //obtener game object
+    public GameObject Radius();
     public void SetState(IState state); //obtener metodo actual
     public IState GetState(); //establecer metodo actual --> cambiar de estado
 

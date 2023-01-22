@@ -7,13 +7,14 @@ public class CameraController : MonoBehaviour
     public GameObject Player;
     public GameObject mirarA;
 
-    private float moveSpeed = 2;
-    private float turnSpeed = 100;
+    //private float moveSpeed = 2;
+    //private float turnSpeed = 100;
     public float damping = 1;
-    private float currentH = 0;
-    private readonly float interpolation = 10;
+    //private float currentH = 0;
+    //private readonly float interpolation = 10;
 
-    Vector3 dist; 
+    Vector3 dist;
+    float distanceToWaypoint;
 
     private void Start()
     {
@@ -21,6 +22,7 @@ public class CameraController : MonoBehaviour
         if(!Player) { gameObject.GetComponent<GameObject>(); }
         if (!mirarA) { gameObject.GetComponent<GameObject>(); }
         dist = transform.position - Player.transform.position; //camara-jugador
+        distanceToWaypoint = dist.magnitude;
         //dist.y = 0;
         //transform.Rotate(0, dist * Time.deltaTime, 0);
         this.transform.parent = Player.transform;
@@ -43,16 +45,29 @@ public class CameraController : MonoBehaviour
             this.transform.parent = Player.transform;
         }
 
-            //currentH = Mathf.Lerp(currentH, h, Time.deltaTime * interpolation);
+        dist = transform.position - Player.transform.position;
+        float newDist = dist.magnitude;
+        if (newDist >= distanceToWaypoint) this.transform.parent = Player.transform;
+        //currentH = Mathf.Lerp(currentH, h, Time.deltaTime * interpolation);
 
-            //Quaternion rotation = Quaternion.LookRotation(transform.position, Vector3.up);
-            //transform.rotation = Quaternion.RotateTowards(Player.transform.rotation, rotation,  turnSpeed* Time.deltaTime);
+        //Quaternion rotation = Quaternion.LookRotation(transform.position, Vector3.up);
+        //transform.rotation = Quaternion.RotateTowards(Player.transform.rotation, rotation,  turnSpeed* Time.deltaTime);
 
-            //transform.Translate(0, 0, moveSpeed * Time.fixedDeltaTime, Space.Self);
-            //transform.position = Player.transform.position + dist;
+        //transform.Translate(0, 0, moveSpeed * Time.fixedDeltaTime, Space.Self);
+        //transform.position = Player.transform.position + dist;
         //if (Player.GetComponent<BoxCollider>().enabled = true) Player = null;
         //transform.rotation = Quaternion.LookRotation(Player.transform.position, Vector3.up);
 
         transform.LookAt(mirarA.transform);
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("Collision camara");
+        if(collision.gameObject.CompareTag("Wall"))
+        {
+            Debug.Log("es una pared");
+            this.transform.parent = null;
+        }
     }
 }

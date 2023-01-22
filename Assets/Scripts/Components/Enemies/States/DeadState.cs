@@ -34,7 +34,7 @@ namespace Components.Enemies.States
         }
         public override void FixedUpdate() //movimiento mientras no busca
         {
-            if(enemy.PlayerAtSight() == null)
+            if(enemy.Radius() == null)
             {
                 GameManager.Destroy(enemy.GetGameObject());
             }
