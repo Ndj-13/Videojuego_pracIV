@@ -47,7 +47,7 @@ namespace Components.Enemies
         private void Awake()
         {            
             if (!m_animator) { gameObject.GetComponent<Animator>(); }
-            if (!m_rigidBody) { gameObject.GetComponent<Animator>(); }
+            if (!m_rigidBody) { gameObject.GetComponent<Rigidbody>(); }
             //if (!health) { health = new Health(); }
 
             life = enemyType.maxLife;
