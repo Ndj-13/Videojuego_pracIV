@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Components.GameManagement.SoundManager
+namespace Components.Interface.UINavigation.SoundManger
 {
     [CreateAssetMenu(fileName = "SoundList", menuName = "Sounds/SoundList")]
     public class SoundList : ScriptableObject

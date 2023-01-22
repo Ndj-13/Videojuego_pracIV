@@ -10,6 +10,7 @@ namespace Components.GameManagement.Scores
     public class PuppetCounter : MonoBehaviour, IObserver<int>
     {
         public TextMeshProUGUI numPuppetsText; //puntos por recoger patitos
+        public TextMeshProUGUI puertaMagica;
         //[SerializeField] GameObject player;
 
         //SubjectPuppetsPicked puppet = new SubjectPuppetsPicked();
@@ -23,6 +24,7 @@ namespace Components.GameManagement.Scores
         {
             //if (!player) { player.GetComponent<GameObject>(); }
             numPuppetsText = GetComponent<TextMeshProUGUI>();
+            puertaMagica = GetComponent<TextMeshProUGUI>();
             //numCollectedText.text = numCollected.ToString();
 
             //player.
@@ -35,12 +37,18 @@ namespace Components.GameManagement.Scores
             numPuppetsText.text = numCollected.ToString("") + "/4";
             //player.gameObject.
             //player.
+            if(numCollected == 4)
+            {
+                Debug.Log("Ha aparecido una puerta mágica");
+                puertaMagica.text = "Encuentra la puerta mágica";
+
+            }
         }
 
         public void AddCollected(int collectedPuppets)
         {
             Debug.Log("Update num puppets");
-            numCollected = collectedPuppets; //no se si pasar como parametro directamente el numPuppets o sumar 1 cada vez
+            numCollected = collectedPuppets; 
         }
 
         public void UpdateObserver(int newPuppet)

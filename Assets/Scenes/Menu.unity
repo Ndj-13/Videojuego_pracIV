@@ -160,8 +160,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1, y: 3}
-  m_SizeDelta: {x: 148.9828, y: 37.2457}
+  m_AnchoredPosition: {x: 1.0000019, y: 0.0000014305}
+  m_SizeDelta: {x: 138.2614, y: 34.5653}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5550053
 MonoBehaviour:
@@ -493,8 +493,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.0000038, y: -43.557194}
-  m_SizeDelta: {x: 179.1518, y: 37.2457}
+  m_AnchoredPosition: {x: 1.0000019, y: -51}
+  m_SizeDelta: {x: 166.2593, y: 34.5653}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &745624515
 MonoBehaviour:
@@ -1072,8 +1072,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.0000038, y: -136.6714}
-  m_SizeDelta: {x: 130.6393, y: 37.2457}
+  m_AnchoredPosition: {x: 1, y: -100}
+  m_SizeDelta: {x: 121.238, y: 34.5653}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1103136119
 MonoBehaviour:
@@ -1660,7 +1660,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1498392596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1866,7 +1866,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1916761859
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1885,8 +1885,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.0000038, y: -90.11429}
-  m_SizeDelta: {x: 194.8043, y: 37.2457}
+  m_AnchoredPosition: {x: 1, y: -78}
+  m_SizeDelta: {x: 180.7854, y: 34.5653}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1916761860
 MonoBehaviour:
@@ -2016,11 +2016,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startButton: {fileID: 5550053}
   creditsButton: {fileID: 745624515}
-  recordsButton: {fileID: 1916761860}
+  recordsButton: {fileID: 0}
   quitButton: {fileID: 1103136119}
-  miniAudioButton: {fileID: 1311100624}
-  miniAudio1: {fileID: 21300000, guid: a7e1e81117197488db394021a1b04920, type: 3}
-  miniAudio2: {fileID: 21300000, guid: 493fd7d0e626d4db091f50928058f0b8, type: 3}
-  musicButton: {fileID: 1311100624}
-  musicButton1: {fileID: 21300000, guid: 6a480913ea1f08f4f90e8ef6118822ba, type: 3}
-  musicButton2: {fileID: 21300000, guid: cf9c9fe8ca9d45e4c9c2a4ea3d2c552b, type: 3}
+  musicButton: {fileID: 0}
+  musicButton1: {fileID: 21300000, guid: a7e1e81117197488db394021a1b04920, type: 3}
+  musicButton2: {fileID: 21300000, guid: 493fd7d0e626d4db091f50928058f0b8, type: 3}

@@ -2,89 +2,84 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Components.GameManagement.SoundManager;
 using UnityEngine.UI;
 
-public class MainMenu : MonoBehaviour
+namespace Components.Interface.UINavigation
 {
-    //public MenuSoundPlayer msp;
-    MenuSoundPlayer msp;
-
-    [SerializeField] private Button startButton;
-    [SerializeField] private Button creditsButton;
-    [SerializeField] private Button recordsButton;
-    [SerializeField] private Button quitButton;
-    [SerializeField] private Button miniAudioButton;
-    public Sprite miniAudio1;
-    public Sprite miniAudio2;
-    [SerializeField] private Button musicButton;
-    public Sprite musicButton1;
-    public Sprite musicButton2;
-
-    private void Awake()
+    public class MainMenu : MonoBehaviour
     {
-        startButton.onClick.AddListener(StartButtonClickedEvent); //AddListener en vez de AddObserver
-        creditsButton.onClick.AddListener(CreditsButtonClickedEvent);
-        recordsButton.onClick.AddListener(RecordsButtonClickedEvent);
-        quitButton.onClick.AddListener(QuitGame);
-        miniAudioButton.onClick.AddListener(MusicButtonClickedEvent);
-        musicButton.onClick.AddListener(MusicButtonClickedEvent);
-        Debug.Log("Menu Buttons Awaken");
+        //public MenuSoundPlayer msp;
+        MenuSoundPlayer msp;
 
-        if (!msp) { msp = new MenuSoundPlayer(); }
-        //GameObject mspObj = GameObject.Find("MenuSoundPlayer");
-        //msp = mspObj.GetComponent<MenuSoundPlayer>();
-    }
+        [SerializeField] private Button startButton;
+        [SerializeField] private Button creditsButton;
+        [SerializeField] private Button recordsButton;
+        [SerializeField] private Button quitButton;
+        [SerializeField] private Button musicButton;
+        public Sprite musicButton1;
+        public Sprite musicButton2;
 
-    private void OnDestroy()
-    {
-        /* startButton.onClick.RemoveListener(StartButtonClickedEvent);
-         creditsButton.onClick.RemoveListener(CreditsButtonClickedEvent);
-         recordsButton.onClick.RemoveListener(RecordsButtonClickedEvent);
-         quitButton.onClick.RemoveListener(QuitGame);
-         Debug.Log("Menu Buttons Destroyed");*/
-    }
+        private void Awake()
+        {
+            startButton.onClick.AddListener(StartButtonClickedEvent); //AddListener en vez de AddObserver
+            creditsButton.onClick.AddListener(CreditsButtonClickedEvent);
+            //recordsButton.onClick.AddListener(RecordsButtonClickedEvent);
+            quitButton.onClick.AddListener(QuitGame);
+            //musicButton.onClick.AddListener(MusicButtonClickedEvent);
+            Debug.Log("Menu Buttons Awaken");
 
-    public void StartButtonClickedEvent()
-    {
-        SceneManager.LoadScene("Game");
-    }
+            //GameObject mspObj = GameObject.Find("MenuSoundPlayer");
+            //msp = mspObj.GetComponent<MenuSoundPlayer>();
+        }
 
-    public void CreditsButtonClickedEvent()
-    {
-        SceneManager.LoadScene("Credits");
-    }
+        private void OnDestroy()
+        {
+            /* startButton.onClick.RemoveListener(StartButtonClickedEvent);
+             creditsButton.onClick.RemoveListener(CreditsButtonClickedEvent);
+             recordsButton.onClick.RemoveListener(RecordsButtonClickedEvent);
+             quitButton.onClick.RemoveListener(QuitGame);
+             Debug.Log("Menu Buttons Destroyed");*/
+        }
 
-    public void RecordsButtonClickedEvent()
-    {
-        SceneManager.LoadScene("Records");
-    }
+        public void StartButtonClickedEvent()
+        {
+            SceneManager.LoadScene("Story");
+        }
 
-    private void QuitGame()
-    {
+        public void CreditsButtonClickedEvent()
+        {
+            SceneManager.LoadScene("Credits");
+        }
+
+        public void RecordsButtonClickedEvent()
+        {
+            SceneManager.LoadScene("Records");
+        }
+
+        private void QuitGame()
+        {
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
+            UnityEditor.EditorApplication.isPlaying = false;
 #else
         Application.Quit();
 #endif
-    }
+        }
 
-    public void MusicButtonClickedEvent()
-    {
-        bool musicActive = msp.IsActive();
-        Debug.Log("Music was playing: " + musicActive);
-        if (musicActive)
+        public void MusicButtonClickedEvent()
         {
-            miniAudioButton.image.sprite = miniAudio1;
-            musicButton.image.sprite = musicButton1;
-            musicActive = false;
+            bool musicActive = msp.IsActive();
+            Debug.Log("Music was playing: " + musicActive);
+            if (musicActive)
+            {
+                musicButton.image.sprite = musicButton1;
+                musicActive = false;
+            }
+            else if (!musicActive)
+            {
+                musicButton.image.sprite = musicButton2;
+                musicActive = true;
+            }
+            msp.ChangeMute(musicActive);
         }
-        else if (!musicActive)
-        {
-            miniAudioButton.image.sprite = miniAudio2;
-            musicButton.image.sprite = musicButton2;
-            musicActive = true;
-        }
-        msp.ChangeMute(musicActive);
     }
 }

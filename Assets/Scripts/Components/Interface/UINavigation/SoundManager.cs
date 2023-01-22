@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Components.GameManagement.SoundManager;
+using Components.Interface.UINavigation.SoundManger;
 using UnityEngine.UI;
 
 public class SoundManager : AGameService
@@ -9,7 +9,7 @@ public class SoundManager : AGameService
     //public Sprite musicButton1;
     //public Sprite musicButton2;
     //[SerializeField] private Button musicButton;
-    public bool musicActive;
+    public bool musicActive = true;
 
     private Dictionary<string, Sound> _sounds = new Dictionary<string, Sound>();
 
@@ -17,11 +17,10 @@ public class SoundManager : AGameService
 
     private void Start()
     {
-        musicActive = true;
         //Me registro como servicio
         RegisterService("SoundManager", true, true);
 
-        if (!_audioSource) { _audioSource = GetComponent<AudioSource>(); } 
+        _audioSource = GetComponent<AudioSource>();  
 
         //Pila de sonidos:
         for (int i = 0; i < soundList.Sounds.Length; i++)

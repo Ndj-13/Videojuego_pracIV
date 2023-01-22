@@ -5,71 +5,76 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
 
-public class pauseMenu : MonoBehaviour
+namespace Components.Interface.UINavigation
 {
-    //public MenuSoundPlayer msp;
-    MenuSoundPlayer msp;
-
-    [SerializeField] private Button menuButton;
-    [SerializeField] private Button resumeButton;
-    [SerializeField] private Button pauseButton;
-    [SerializeField] GameObject pauseMen;
-
-    [SerializeField] private Button musicButton;
-    public Sprite musicButton1;
-    public Sprite musicButton2;
-
-    private void Awake()
+    public class pauseMenu : MonoBehaviour
     {
-        menuButton.onClick.AddListener(MenuButtonClickedEvent); //AddListener en vez de AddObserver
-        resumeButton.onClick.AddListener(ResumeButtonClickedEvent);
-        pauseButton.onClick.AddListener(PauseButtonClickedEvent);
-        musicButton.onClick.AddListener(MusicButtonClickedEvent);
-        Debug.Log("Pause Buttons Awaken");
-        pauseMen.SetActive(false);
+        //public MenuSoundPlayer msp;
+        MenuSoundPlayer msp;
 
-        GameObject mspObj = GameObject.Find("MenuSoundPlayer");
-        msp = mspObj.GetComponent<MenuSoundPlayer>();
-    }
+        [SerializeField] private Button menuButton;
+        [SerializeField] private Button resumeButton;
+        [SerializeField] private Button pauseButton;
+        [SerializeField] GameObject pauseMen;
 
-    private void OnDestroy()
-    {
-        /* menuButton.onClick.RemoveListener(MenuButtonClickedEvent);
-         resumeButton.onClick.RemoveListener(ResumeButtonClickedEvent);
-         pauseButton.onClick.RemoveListener(PauseButtonClickedEvent);
-         Debug.Log("Pause Buttons Destroyed");*/
-    }
+        [SerializeField] private Button musicButton;
+        [SerializeField] private TextMeshProUGUI mText;
+        bool musicActive = true;
+        [SerializeField] private AudioSource music;
+        //public Sprite musicButton1;
+        //public Sprite musicButton2;
 
-    public void PauseButtonClickedEvent()
-    {
-        pauseMen.SetActive(true);
-        //Time.timeScale = 0f;
-    }
-
-    public void ResumeButtonClickedEvent()
-    {
-        pauseMen.SetActive(false);
-        //Time.timeScale = 1f;
-    }
-
-    public void MenuButtonClickedEvent()
-    {
-        SceneManager.LoadScene("Menu");
-    }
-    public void MusicButtonClickedEvent()
-    {
-        bool musicActive = msp.IsActive();
-        Debug.Log("Music was playing: " + musicActive);
-        if (musicActive)
+        private void Awake()
         {
-            musicButton.image.sprite = musicButton1;
-            musicActive = false;
+            menuButton.onClick.AddListener(MenuButtonClickedEvent); //AddListener en vez de AddObserver
+            resumeButton.onClick.AddListener(ResumeButtonClickedEvent);
+            pauseButton.onClick.AddListener(PauseButtonClickedEvent);
+            musicButton.onClick.AddListener(MusicButtonClickedEvent);
+            Debug.Log("Pause Buttons Awaken");
+            pauseMen.SetActive(false);
+
+            //GameObject mspObj = GameObject.Find("MenuSoundPlayer");
+            //msp = mspObj.GetComponent<MenuSoundPlayer>();
         }
-        else if (!musicActive)
+
+        private void OnDestroy()
         {
-            musicButton.image.sprite = musicButton2;
-            musicActive = true;
+            /* menuButton.onClick.RemoveListener(MenuButtonClickedEvent);
+             resumeButton.onClick.RemoveListener(ResumeButtonClickedEvent);
+             pauseButton.onClick.RemoveListener(PauseButtonClickedEvent);
+             Debug.Log("Pause Buttons Destroyed");*/
         }
-        msp.ChangeMute(musicActive);
+
+        public void PauseButtonClickedEvent()
+        {
+            pauseMen.SetActive(true);
+            Time.timeScale = 0f;
+        }
+
+        public void ResumeButtonClickedEvent()
+        {
+            pauseMen.SetActive(false);
+            Time.timeScale = 1f;
+        }
+
+        public void MenuButtonClickedEvent()
+        {
+            SceneManager.LoadScene("Menu");
+        }
+        public void MusicButtonClickedEvent()
+        {
+            if (musicActive)
+            {
+                mText.text = "Music: OFF";
+                music.mute = true;
+                musicActive = false;
+            }
+            else if (!musicActive)
+            {
+                mText.text = "Music: ON";
+                music.mute = false;
+                musicActive = true;
+            }
+        }
     }
 }

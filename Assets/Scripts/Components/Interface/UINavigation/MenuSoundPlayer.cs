@@ -43,8 +43,7 @@ public class MenuSoundPlayer : MonoBehaviour
     }
     public bool IsActive()
     {
-        if (_soundManager) return true;
-        else return false;
+        return _soundManager.IsActive();
     }
 
     public void ChangeMute(bool active)
